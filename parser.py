@@ -39,5 +39,18 @@ def covert_context(result: dict[str, str]) -> dict[str, object]:
 
     converted["WIDTH"] = int(result["WIDTH"])
     converted["HEIGHT"] = int(result["HEIGHT"])
-    converted["ENTRY"] = tuple(result["ENTRY"].split(","))
+    converted["ENTRY"] = tuple(map(int, result["ENTRY"].split(",")))
+    converted["EXIT"] = converted["EXIT"] = tuple(map(int, result["EXIT"].split(",")))
+    
+    if not result["OUTPUT_FILE"].endswith(".txt"):
+        raise Invalid("[Error] OUTPUT_FILE must be a txt file")
+    converted["OUTPUT_FILE"] = result["OUTPUT_FILE"]
+    converted["PERFECT"] = eval(result["PERFECT"])
+
+    seed = result["SEED"]
+    if not seed:
+        seed_val = random.randrange(0, 100)
+    elif not seed.isdigit():
+        raise Invalid(f"[Error] SEED given is not numeric: {seed}")
+    
     
